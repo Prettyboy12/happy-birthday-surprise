@@ -27,7 +27,6 @@
       max-width: 450px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       position: relative;
-      z-index: 2;
     }
 
     button {
@@ -43,64 +42,41 @@
 
     #surprise { display: none; }
 
-    /* LOCK SCREEN */
-    #lockScreen {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.75);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 10;
-      text-align: center;
-      padding: 20px;
-    }
-
-    #letter {
-      display: none;
-      white-space: pre-line;
+    /* LOVE LETTER */
+    .letter {
+      margin-top: 15px;
       text-align: left;
-      font-size: 14px;
       line-height: 1.6;
-      max-height: 300px;
-      overflow-y: auto;
+      font-size: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 1s ease;
     }
 
-    /* envelope animation */
-    .envelope {
-      width: 120px;
-      height: 80px;
-      background: pink;
-      position: relative;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      animation: float 2s infinite ease-in-out;
+    .letter.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .envelope:before {
-      content: "";
+    .line {
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* FLOATING HEARTS */
+    .heart {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      border-left: 60px solid transparent;
-      border-right: 60px solid transparent;
-      border-bottom: 40px solid #ff69b4;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
-    }
-
-    #countdown {
       font-size: 18px;
-      margin-top: 10px;
-      font-weight: bold;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
     }
 
   </style>
@@ -108,102 +84,81 @@
 
 <body>
 
-<div class="card">
-  <h1>💌 Birthday Surprise</h1>
-  <p>Something special is waiting for you…</p>
-
-  <button onclick="openSurprise()">Open Gift 🎁</button>
+<div class="card" id="start">
+  <h1>💌 A Special Surprise For You</h1>
+  <p>Something beautiful is waiting for you… ❤️</p>
+  <button onclick="openSurprise()">Open Your Gift 🎁</button>
 </div>
 
-<!-- LOCK SCREEN -->
-<div id="lockScreen">
-  <div class="envelope"></div>
-  <h2>💌 Love Letter Locked</h2>
-  <p>This message will unlock at midnight ❤️</p>
-  <p id="countdown"></p>
-</div>
-
-<!-- SURPRISE LETTER -->
 <div class="card" id="surprise">
-  <h2>🎂 Happy Birthday ❤️</h2>
-  <p>Music of your choice: Nasty C - Everything 🎵</p>
 
-  <!-- Put YouTube link here manually -->
-  <p style="font-size:12px;opacity:0.7;">
-    (Add YouTube link for the song here)
-  </p>
+  <h1>🎂 Happy Birthday ❤️</h1>
+  <p>Today is all about you 💖</p>
 
-  <hr style="margin:10px 0;">
+  <button onclick="revealLetter()">Open Love Letter 💌</button>
 
-  <div id="letter"></div>
+  <div class="letter" id="letter">
+
+    <div class="line">Ohh pretty face, klklklk</div>
+    <div class="line">Happy Birthday, my sweetheart ❤️</div>
+
+    <div class="line">I’ve been trying to find the right words, but nothing ever feels enough when it comes to you. You are the kind of person who makes my life softer, warmer and so much more beautiful just by being in it.</div>
+
+    <div class="line">Today, I don’t just celebrate your birthday… I celebrate you, your smile that I can’t get out of my head, your voice that feels like comfort and your presence that somehow makes everything feel right.</div>
+
+    <div class="line">If I could, I’d wrap all my feelings for you into one moment so you could feel exactly how much you mean to me. But since I can’t, I’ll just say this... you are deeply special to me in a way I can’t explain without my heart racing a little.</div>
+
+    <div class="line">On your birthday, I hope life is gentle with you, I hope you get everything you dream of and even the things you stopped wishing for. You deserve love that feels safe, happiness that lasts and peace that never leaves you.</div>
+
+    <div class="line">And selfishly… I hope I get to keep being part of your story, even in the smallest ways.</div>
+
+    <div class="line">Happy Birthday, my love ❤️</div>
+
+    <div class="line">I always think about you ❤️❤️❤️</div>
+
+  </div>
 </div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <!-- Put file name here if you download it -->
+  <source src="everything.mp3" type="audio/mp3">
+</audio>
 
 <script>
 
 function openSurprise(){
-  document.querySelector(".card").style.display = "none";
-}
-
-/* LOVE LETTER TEXT */
-const letterText = `
-Ohh pretty face, klklklk
-
-Happy Birthday, my sweetheart ❤️
-
-I’ve been trying to find the right words, but nothing ever feels enough when it comes to you. You are the kind of person who makes my life softer, warmer and so much more beautiful just by being in it.
-
-Today, I don’t just celebrate your birthday… I celebrate you, your smile that I can’t get out of my head, your voice that feels like comfort and your presence that somehow makes everything feel right.
-
-If I could, I’d wrap all my feelings for you into one moment so you could feel exactly how much you mean to me. But since I can’t, I’ll just say this... you are deeply special to me in a way I can’t explain without my heart racing a little.
-
-On your birthday, I hope life is gentle with you, I hope you get everything you dream of and even the things you stopped wishing for. You deserve love that feels safe, happiness that lasts and peace that never leaves you.
-
-And selfishly… I hope I get to keep being part of your story, even in the smallest ways.
-
-Happy Birthday, my love ❤️
-I always think about you ❤️❤️❤️
-`;
-
-/* TYPE EFFECT */
-function typeLetter(text, i=0){
-  if(i < text.length){
-    document.getElementById("letter").innerHTML += text.charAt(i);
-    setTimeout(()=>typeLetter(text,i+1), 25);
-  }
-}
-
-/* COUNTDOWN */
-function updateCountdown() {
-  let now = new Date();
-  let target = new Date();
-  target.setDate(target.getDate() + 1);
-  target.setHours(0,0,0,0);
-
-  let diff = target - now;
-
-  if(diff <= 0){
-    unlockLetter();
-    return;
-  }
-
-  let h = Math.floor(diff / (1000*60*60));
-  let m = Math.floor((diff % (1000*60*60)) / (1000*60));
-  let s = Math.floor((diff % (1000*60)) / 1000);
-
-  document.getElementById("countdown").innerText =
-    h + "h " + m + "m " + s + "s";
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-/* UNLOCK LETTER */
-function unlockLetter(){
-  document.getElementById("lockScreen").style.display = "none";
+  document.getElementById("start").style.display = "none";
   document.getElementById("surprise").style.display = "block";
-  document.getElementById("letter").style.display = "block";
-  typeLetter(letterText);
 }
+
+/* LETTER REVEAL */
+function revealLetter(){
+  let letter = document.getElementById("letter");
+  letter.classList.add("show");
+
+  let lines = document.querySelectorAll(".line");
+
+  lines.forEach((line, i) => {
+    setTimeout(() => {
+      line.style.animation = "fadeIn 1s forwards";
+    }, i * 900);
+  });
+
+  /* play music */
+  let music = document.getElementById("music");
+  music.play();
+}
+
+/* HEARTS */
+setInterval(() => {
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 300);
 
 </script>
 
